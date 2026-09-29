@@ -1,0 +1,316 @@
+{
+  "ok": false,
+  "failures": 1,
+  "checks": [
+    {
+      "name": "companion shortcuts dispatch distinct callbacks without opening Codex or the microphone in tests",
+      "ok": true
+    },
+    {
+      "name": "companion shortcut rows fit with reminder length 0",
+      "ok": true
+    },
+    {
+      "name": "companion shortcut rows fit with reminder length 9",
+      "ok": true
+    },
+    {
+      "name": "one right click opens the context menu exactly once",
+      "ok": true
+    },
+    {
+      "name": "context menu survives two seconds of companion heartbeats",
+      "ok": true
+    },
+    {
+      "name": "size submenu remains open while choosing an option",
+      "ok": false
+    },
+    {
+      "name": "details stay open while the pointer returns to the pet",
+      "ok": true
+    },
+    {
+      "name": "hover card does not cover the open details window",
+      "ok": true
+    },
+    {
+      "name": "one quota is fully visible without scrollbars",
+      "ok": true
+    },
+    {
+      "name": "both main quota windows fit without scrollbars",
+      "ok": true
+    },
+    {
+      "name": "four quota windows scroll vertically without clipping values or the refresh button",
+      "ok": true
+    },
+    {
+      "name": "companion uses a translucent native window",
+      "ok": true
+    },
+    {
+      "name": "dismissed companion stays hidden while pointer remains near",
+      "ok": true
+    },
+    {
+      "name": "companion returns after pointer leaves and comes back",
+      "ok": true
+    },
+    {
+      "name": "hover details button opens the journal",
+      "ok": true
+    },
+    {
+      "name": "Escape dismisses the context menu normally",
+      "ok": true
+    },
+    {
+      "name": "tray menu survives a reminder and companion heartbeats",
+      "ok": true
+    },
+    {
+      "name": "menu action can pause animation",
+      "ok": true
+    },
+    {
+      "name": "menu action can resume animation",
+      "ok": true
+    },
+    {
+      "name": "journal keeps its original compact width",
+      "ok": true
+    },
+    {
+      "name": "action bar opens independently without showing a preview before hover",
+      "ok": true
+    },
+    {
+      "name": "action buttons follow the shared gesture catalog exactly",
+      "ok": true
+    },
+    {
+      "name": "all twelve action buttons fit without scrolling",
+      "ok": true
+    },
+    {
+      "name": "smile hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "smile preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "smile preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "smile button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "tilt hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "tilt preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "tilt preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "tilt button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "hair hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "hair preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "hair preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "hair button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "wave hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "wave preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "wave preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "wave button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "leaf hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "leaf preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "leaf preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "leaf button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "water-observe hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "water-observe preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "water-observe preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "water-observe button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "drink hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "drink preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "drink preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "drink button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "stretch hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "stretch preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "stretch preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "stretch button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "leaf-breeze hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "leaf-breeze preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "leaf-breeze preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "leaf-breeze button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "dew-hands hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "dew-hands preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "dew-hands preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "dew-hands button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "waiting-breeze hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "waiting-breeze preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "waiting-breeze preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "waiting-breeze button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "offer-candy hover opens the matching preview",
+      "ok": true
+    },
+    {
+      "name": "offer-candy preview animates without playing the desktop pet",
+      "ok": true
+    },
+    {
+      "name": "offer-candy preview does not take keyboard focus",
+      "ok": true
+    },
+    {
+      "name": "offer-candy button plays its animation and keeps the action window open",
+      "ok": true
+    },
+    {
+      "name": "leaving an action hides the preview and stops rendering",
+      "ok": true
+    },
+    {
+      "name": "an action button resumes paused playback",
+      "ok": true
+    },
+    {
+      "name": "action window can remain open independently of the journal",
+      "ok": true
+    },
+    {
+      "name": "closing the action window releases its preview and timer",
+      "ok": true
+    }
+  ],
+  "singleRightClickOpenCount": 1,
+  "menuOpenCount": 2,
+  "menuCloseReasons": [
+    "AppFocusChange",
+    "Keyboard"
+  ],
+  "trayCloseReasons": [
+    "CloseCalled"
+  ],
+  "scope": "Real WinForms windows and active animation clock; native message dispatch and injected heartbeat pointer; no system mouse input"
+}

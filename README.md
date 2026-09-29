@@ -29,6 +29,8 @@ Codex 相关功能需要本机安装并登录 Codex。实时语音使用 Codex �
 
 ## 从源码构建
 
+动画二进制统一随完整 Release 分发。克隆仓库后，先从发布 ZIP 中将 `Muelsyse-Desktop/assets/` 的内容复制到仓库的 `assets/` 文件夹。发布 ZIP 的 `source/` 与 `assets/` 已经相邻，也可直接在解压目录构建。
+
 在 Windows 上安装 .NET 9 SDK 后，在仓库根目录运行：
 
 ```powershell

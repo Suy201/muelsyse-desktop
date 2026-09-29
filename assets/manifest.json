@@ -1,0 +1,372 @@
+{
+  "complete": {
+    "frames": 54,
+    "fps": 30,
+    "compressed_bytes": 3211350,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "4747eb25356f900d3063fd912883073a022a378a9a0a35b3baee4e69d05fa359"
+  },
+  "failed": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 4700558,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "f46a2910408d4b8e0c0b22744d7983afe87cdcdc566b6b69a2625e87c2b1108c"
+  },
+  "hair": {
+    "frames": 60,
+    "fps": 30,
+    "compressed_bytes": 3588613,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "ceabd5f460c834672d8d06966f1894565c728c7be0862a33449b50a27b3431f9"
+  },
+  "idle": {
+    "frames": 135,
+    "fps": 30,
+    "compressed_bytes": 8618800,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "3db5bc62ee1620c1ad2fe4b62b970436e9dcbb3840c557413bd71a0a0fce45da"
+  },
+  "jumping": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 3071746,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "38e73b7df71132e8c30e10d497a03d54ac836b8e08223a7afe300958c1e1406b"
+  },
+  "look-in-0": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 459723,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "9267c51be4a406dc00e32fe5e170827e0e7ff3bdf2ce9d2cdeb30a88cf3eab96"
+  },
+  "look-in-1": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 448156,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "ae4b1de62ba35697945a6194095cb1d1af2bdb19c4dd3997e07ae5dabcce111e"
+  },
+  "look-in-10": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 447997,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "9e8e81f52654c8712fcd376a67518513f9179852fdc55d5bf4512f0ce4fbb356"
+  },
+  "look-in-11": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 444063,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "a70ea389a37b700714d8f83c4dcabac09132e965ae97aeb4f7762b2ba3c21ace"
+  },
+  "look-in-12": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 436123,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "7c6984f57237270bba32c0b3ba60035ecedd7736d32ada717bf4007d041576a0"
+  },
+  "look-in-13": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 443077,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "60f288c1b9faed4bf4c8bb362266ac90ef5371810b4645f0175baefc00f4c9cb"
+  },
+  "look-in-14": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 451923,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "23ddc5494f33e38d8a98d34e252861ed3a66fe0bc6c745d4261d90ffc451cfe4"
+  },
+  "look-in-15": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 453046,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "13ac1e6053697a0d7dd5e083ee7e4f3778878208916feb719cde4423916f3f58"
+  },
+  "look-in-2": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 445261,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "46f4355a7ea99594f2098898ba9b57058d57cfc6fdb80e1d21c7864a27e49639"
+  },
+  "look-in-3": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 432405,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "2a27c7b4f694890733b9875a344b66f0667dd34c45ccec35bbda7909018411c5"
+  },
+  "look-in-4": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 432795,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "69f97de1108fb5f5848e50f7b7e945d7f468fe063b943344def7f37fef709dc7"
+  },
+  "look-in-5": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 435496,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "808e91ddc2f900a2dba4b4ca02b1b5d42a897a64ee2488ab1c5ed954962d90b5"
+  },
+  "look-in-6": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 434496,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "f7d20f1d2faf069f4053b14f63965d4b6f8818b091a406fb0053bbf70bb9b48b"
+  },
+  "look-in-7": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 440054,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "4efa3e594492f1b9c63c3b09587a96b4b10cead3c30296c87ee74f5de365572c"
+  },
+  "look-in-8": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 463547,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "eb0ef154d0f4880650d9f843ff71bee2116ca8d76767cb3b8ea59e7ff1250d24"
+  },
+  "look-in-9": {
+    "frames": 7,
+    "fps": 30,
+    "compressed_bytes": 458809,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "53dded5e55a21268f674dbcc721557aefbe55342921deae5fd210be247c2b6a6"
+  },
+  "look-turn-0": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 261384,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "336f7d3e2482cd21d914bbe337811b1d2cd3cf4e7322fa0d4cadfe1fdb087345"
+  },
+  "look-turn-1": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 252748,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "a69a37f17dc086385da1369fc98eee03fc12ba6ddbec9168c32838ba17d80c15"
+  },
+  "look-turn-10": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 251015,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "a7f72d250cb407b5a168f7410b28acd8f7b90fb7565ff4a61ae3a8f7999addb0"
+  },
+  "look-turn-11": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 244588,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "146f6c591b839872aa8d8c6d5f40b38e8a576c71b08686f372ccc20cd0f42db4"
+  },
+  "look-turn-12": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 244483,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "c5327aae971ea1fdb9ff33156a70f5ad5eb06cb36010d36564398902d8d7afe7"
+  },
+  "look-turn-13": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 252886,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "c8cca158ed44aba05471cfbf665fa08bdae9fc91ac30ebb733463241efabb32f"
+  },
+  "look-turn-14": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 256695,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "a26e1707d633c0fd91d0b02e3fe25b3d301f1ea10c5d1cf319bd984d2864474c"
+  },
+  "look-turn-15": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 264068,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "1ad63b9e927bd350ed78485a6fb55dbe39be2ae7d8df4ac358662a367b16b36b"
+  },
+  "look-turn-2": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 243532,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "d1e8c16ba2b5cc0af390e1cb6d0ade8074c9e4de24d55aa93629ba2e3c5c5574"
+  },
+  "look-turn-3": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 236591,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "49c7e9d1bdc419fde986cff318a3b6b5ab6fcac4cdd5d265bf0b3e1103a8e1c2"
+  },
+  "look-turn-4": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 238571,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "8e6aa26c014aa0f1bd68c876baf83f91e22074f6f29457f15e3bb0607d244a93"
+  },
+  "look-turn-5": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 239444,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "b2f3b41261d5f6a42db232b4338c6c8109b6a6f3328eb556e7f43f99e654e5d9"
+  },
+  "look-turn-6": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 241915,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "7a0d99824c8da49a2fdf688d4c1d95014ebcd416379dc4be7e074ffc55d9f60a"
+  },
+  "look-turn-7": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 258260,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "a4d53fe05706bbc811433543801bff8ae4975d186e30df2412bc9b84963da177"
+  },
+  "look-turn-8": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 268620,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "55dab84373320fd01b1141ae637280c77843acd17987ad71731abd7200c584bd"
+  },
+  "look-turn-9": {
+    "frames": 4,
+    "fps": 30,
+    "compressed_bytes": 259348,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "5a95131ec782403031e379be262b0c5e744cc11426fcff534d4714affe8461d8"
+  },
+  "look": {
+    "frames": 16,
+    "fps": 30,
+    "compressed_bytes": 976034,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "fa13ab1f56ec1dcb3dc590a2ec2cebbd7bf7fbea518c2c742322d24ad0b73f66"
+  },
+  "review": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 4199038,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "826799f71653591b599df31322db4a187da5b23c908b69037df052bc29b7a82c"
+  },
+  "running-left": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 3700972,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "6f86680bfaa1b545e71b2763b9561554ed9f8ccde4760d12b2e243dad7f9d7a9"
+  },
+  "running-right": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 3606018,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "eec0a17c95802252c14bb162aa537ed20fe7bf92da7375b825c8911c5c24803e"
+  },
+  "smile": {
+    "frames": 54,
+    "fps": 30,
+    "compressed_bytes": 3211350,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "4747eb25356f900d3063fd912883073a022a378a9a0a35b3baee4e69d05fa359"
+  },
+  "tilt": {
+    "frames": 45,
+    "fps": 30,
+    "compressed_bytes": 2726898,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "47411da465a1e8a93626207337fef64d65a337490fd25dc7092a8f710a70afc3"
+  },
+  "waiting": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 4038795,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "5ab79f0e2b8c5c0460b0e05b92e825edea3807642cfe03c0cf6b380162fda11c"
+  },
+  "wave": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 4654929,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "fe2fde93b26dd007e17b6ebaab75394f76293a0af42a85c041a230b09cabbd5c"
+  },
+  "working": {
+    "frames": 72,
+    "fps": 30,
+    "compressed_bytes": 4401170,
+    "decoded_frame_bytes": 159744,
+    "raw_sha256": "8d0e347ad449518defcb4526199bcc2b71893177f6314eae1f9f6d83e34487da"
+  },
+  "drink": {
+    "frames": 162,
+    "fps": 30,
+    "bytes": 9825003,
+    "sha256": "c7addfccf5f532eae3ecee99fc18ea88abb007e693f703167482fd904bf6fa38"
+  },
+  "leaf": {
+    "frames": 120,
+    "fps": 30,
+    "bytes": 7345632,
+    "sha256": "5c31b215aabb1018f44a9a2898def2f753a7b64a90d8d45637508d72a412688a"
+  },
+  "stretch": {
+    "frames": 132,
+    "fps": 30,
+    "bytes": 8553976,
+    "sha256": "11f44c0d08ecf714ac98d42a88f537013fe0896c86395467e2c261e29a1a02b8"
+  },
+  "water-observe": {
+    "frames": 126,
+    "fps": 30,
+    "bytes": 7600825,
+    "sha256": "291c6d13ca4c6021ef6dae2c61c811e9be7447d13f2ba88c3da5b6600577faef"
+  },
+  "leaf-breeze": {
+    "frames": 144,
+    "fps": 30,
+    "bytes": 9161840,
+    "sha256": "f75a4818592330d099470c2c6ec96d9a995a87c727d5b73df5c94b6e083831da"
+  },
+  "dew-hands": {
+    "frames": 156,
+    "fps": 30,
+    "bytes": 9796392,
+    "sha256": "283bcd8fd56f08dae40dec5207ed44f96bb01db098de7b9ac336b5d33c17d372"
+  },
+  "waiting-breeze": {
+    "frames": 168,
+    "fps": 30,
+    "bytes": 10459828,
+    "sha256": "e1b75b4ff940159578d3f7115952eb4243890b0ba0f012daa84cb935289b018e"
+  },
+  "offer-candy": {
+    "frames": 144,
+    "fps": 30,
+    "bytes": 9046784,
+    "sha256": "aa88844c711ccda5c1735da9f9cf0810084f8dc75df150e70993888b99e1a296"
+  }
+}

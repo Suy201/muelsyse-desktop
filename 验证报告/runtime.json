@@ -1,0 +1,28 @@
+{
+  "elapsedSeconds": 57.7605156,
+  "cpuSeconds": 3.015625,
+  "oneCoreCpuPercent": 5.2209108050275095,
+  "logicalProcessors": 18,
+  "workingSetBytes": 102318080,
+  "privateBytes": 51548160,
+  "cacheBytes": 16231320,
+  "spriteLoads": 31,
+  "renderTicks": 1731,
+  "presentedFrames": 1345,
+  "scheduledFps": 29.96856904788433,
+  "p95FrameIntervalMs": 33.975599999997996,
+  "observedActions": [
+    "idle",
+    "greet",
+    "leaf",
+    "water-observe",
+    "drink",
+    "stretch",
+    "complete",
+    "working"
+  ],
+  "realDesktopWindow": true,
+  "displayScale": 1,
+  "renderer": "Win32 per-pixel-alpha, single physical-pixel raster",
+  "interaction": "Engine input injection; no synthetic mouse events sent"
+}
