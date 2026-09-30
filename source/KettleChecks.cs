@@ -4,6 +4,21 @@ internal static class KettleChecks
 {
     public static void Run(Action<bool,string> check)
     {
+        var lines=new KettleLines(17);var entry=lines.Next(true,0);var exit=lines.Next(false,4.8);
+        check(entry!=null&&KettleLines.Enter.Contains(entry)&&exit!=null&&KettleLines.Exit.Contains(exit),"entry and exit use their corresponding voice lines");
+        check(lines.Next(true,5)==null,"rapid direction reversal does not chatter overlapping voice lines");
+        check(lines.Next(true,6.2)!=entry&&lines.Next(false,8)!=exit,"successive visits do not repeat the same line in either direction");
+        var previous=System.Text.Json.JsonSerializer.Deserialize<Settings>("{\"X\":20,\"Y\":30,\"Scale\":1.25,\"OnTop\":true}");
+        check(previous is {KettleVoice:true,X:20,Y:30,Scale:1.25},"existing settings enable voice while preserving position and size");
+        var muted=new Settings(20,30,1.25,true,false);
+        check(System.Text.Json.JsonSerializer.Deserialize<Settings>(System.Text.Json.JsonSerializer.Serialize(muted))==muted,"voice mute setting survives settings serialization");
+        foreach(var line in KettleLines.Enter.Concat(KettleLines.Exit))
+        {
+            string path=Path.Combine(AppContext.BaseDirectory,"assets","audio",line.FileName);
+            using var wave=new BinaryReader(File.OpenRead(path));
+            check(new string(wave.ReadChars(4))=="RIFF"&&wave.BaseStream.Length>44,"packaged voice is a non-empty WAV: "+line.FileName);
+            wave.ReadUInt32();check(new string(wave.ReadChars(4))=="WAVE","packaged voice has the WAV signature: "+line.FileName);
+        }
         var motion=new KettleMotion();
         check(!motion.Active&&!motion.Moving&&motion.Frame(144)==0,"kettle starts as the exact normal endpoint");
         check(KettleMotion.Opacity(0)==1&&KettleMotion.Opacity(1)==1&&KettleMotion.Opacity(.91)==1,"normal and kettle endpoints remain fully opaque");
@@ -52,6 +67,9 @@ internal sealed partial class PetForm
         brain.Paused=false;brain.ReturnToBase(clock.Elapsed.TotalSeconds);
         SetKettle(true);await Task.Delay(250);
         check(Visible&&kettle.Active,"hide starts a visible transformation instead of hiding the native window");
+        check(KettleLines.Enter.Any(line=>line.Text==speech),"entry voice caption starts with the actual transformation");
+        string caption=speech;double until=speechUntil;SetKettle(true);
+        check(speech==caption&&speechUntil==until,"repeated hide request does not restart or clear its voice caption");
         await Task.Delay(500);int before=player.LastFrame;SetKettle(false);await Task.Delay(100);
         check(player.LastFrame<=before&&player.LastFrame>=before-5,"cancel during entry reverses continuously");
         await Task.Delay(1200);check(!kettle.Active&&!pendingKettle,"cancelled entry returns to the normal state");
@@ -70,6 +88,10 @@ internal sealed partial class PetForm
         check(kettle.Hidden,"release at a work-area edge hides into kettle");
         Location=new Point(area.Left+100,area.Top+100);FinishDrop();await WaitForEndpoint(false);
         check(!kettle.Active,"dragging the kettle away from the edge restores the pet");
+        var voiceItem=ContextMenuStrip!.Items.OfType<ToolStripMenuItem>().Single(i=>i.Text=="进出水壶语音");
+        bool voiceWasEnabled=kettleVoiceEnabled;voiceItem.PerformClick();
+        check(kettleVoiceEnabled!=voiceWasEnabled,"right-click menu can mute kettle voice");voiceItem.PerformClick();
+        check(kettleVoiceEnabled==voiceWasEnabled,"right-click menu can restore kettle voice");
         check(Behavior.Gestures.Count==12,"existing twelve actions remain available after repeated hide/show");
     }
 }

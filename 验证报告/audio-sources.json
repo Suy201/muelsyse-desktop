@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "type": "existing game Mandarin recordings, community mirror",
+  "processing": "decode MP3 to signed 16-bit PCM at original sample rate/channel count; no trim, pitch, rate or synthesis",
+  "clips": [
+    {
+      "file": "kettle-enter-01.wav",
+      "seconds": 3.224988662131519,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.63970947265625,
+      "sha256": "eb46d4919bfedb59213e38011909cf0c23d886a35a5b2862e0ea2699e42c3f47",
+      "source_url": "https://raw.githubusercontent.com/PseudoMon/arknights-audio/global-server-voices/voice_cn/char_249_mlyss/CN_017.mp3",
+      "source_blob_sha": "f324c8af0937c473dfc5cbda93fa32e2f5662b5b",
+      "source_sha256": "c8d921436926985c54741f17037dadb5fe11dac1857a0901f00037993cefb4c2",
+      "voice_id": "CN_017",
+      "title": "编入队伍",
+      "text": "阳光有点辣，我先休息一会。"
+    },
+    {
+      "file": "kettle-enter-02.wav",
+      "seconds": 1.22,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.550018310546875,
+      "sha256": "da981d2a85936d00fe9c757c09bfc43985cffd21f79e52d926789724e5c001e7",
+      "source_url": "https://raw.githubusercontent.com/PseudoMon/arknights-audio/global-server-voices/voice_cn/char_249_mlyss/CN_025.mp3",
+      "source_blob_sha": "196d418787539997ad367d4d842b3e28f01b0b0c",
+      "source_sha256": "dbb2feb735dd2a466ce6fe1dd7cafffc9338c9bd914083515051f70ef275833e",
+      "voice_id": "CN_025",
+      "title": "作战中1",
+      "text": "如水随形。"
+    },
+    {
+      "file": "kettle-exit-01.wav",
+      "seconds": 0.5349886621315193,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.739349365234375,
+      "sha256": "562cc770ea47043b386af16388c02ad9c38c8ae02023f090a1239d57a133bf6e",
+      "source_url": "https://raw.githubusercontent.com/PseudoMon/arknights-audio/global-server-voices/voice_cn/char_249_mlyss/CN_021.mp3",
+      "source_blob_sha": "a56a6881149606399f35e6f40781269b914c52f7",
+      "source_sha256": "d5e9ff06e7871976ef2aa6462f47486e9a6e014c6a7cf049df80cab45141c7e7",
+      "voice_id": "CN_021",
+      "title": "选中干员1",
+      "text": "哈喽。"
+    },
+    {
+      "file": "kettle-exit-02.wav",
+      "seconds": 2.5649886621315194,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.5712890625,
+      "sha256": "89bea441069dc872301b106c4271a14765597b7b67611db136d31f2402127eb9",
+      "source_url": "https://raw.githubusercontent.com/PseudoMon/arknights-audio/global-server-voices/voice_cn/char_249_mlyss/CN_028.mp3",
+      "source_blob_sha": "ea8420787fdc23810db05b93f6e2b608373efddd",
+      "source_sha256": "21efbaa4c75348da2a5ff06bc5d10ceb15dbb0791d441e2df5315b58c7b5d636",
+      "voice_id": "CN_028",
+      "title": "作战中4",
+      "text": "愿望啊，请你凝结。"
+    }
+  ]
+}

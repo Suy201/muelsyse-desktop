@@ -1,12 +1,12 @@
 # 缪缪桌宠 · Muelsyse Desktop
 
-缪尔赛思的独立 Windows 桌面陪伴程序。当前版本 **1.3.0**，适用于 **Windows 10 / 11 x64**。
+缪尔赛思的独立 Windows 桌面陪伴程序。当前版本 **1.3.1**，适用于 **Windows 10 / 11 x64**。
 
 ![动作预览](docs/actions.png)
 
 ## 下载与使用
 
-前往 [最新发布](https://github.com/Suy201/muelsyse-desktop/releases/latest)，下载 **Muelsyse-Desktop-1.3.0-Windows-x64.zip**。这是包含完整程序、正式素材、源码和离线预览的发布包。
+前往 [最新发布](https://github.com/Suy201/muelsyse-desktop/releases/latest)，下载 **Muelsyse-Desktop-1.3.1-Windows-x64.zip**。这是包含完整程序、正式素材、源码和离线预览的发布包。
 
 完整解压后双击 `Muelsyse.exe`，无需另外安装 .NET。请保留 `assets` 文件夹与 EXE 的相对位置。GitHub 自动生成的 Source code 压缩包是源码，不含可直接启动的 EXE。
 
@@ -21,7 +21,17 @@ Codex 相关功能需要本机安装并登录 Codex。实时语音使用 Codex �
 
 设置保存在 `%LOCALAPPDATA%\MuelsysePet`。更新时退出旧版，解压新版后启动即可。
 
-## 1.3.0 更新
+## 1.3.1 更新
+
+进出动画实际开始时，播放缪尔赛思现有官方中文语音，并显示相应文字。入壶为“阳光有点辣，我先休息一会。”或“如水随形。”；出壶为“哈喽。”或“愿望啊，请你凝结。”。首次随机选择，同一方向不连续重复。
+
+原声已随包附带，无需联网或额外配置。右键菜单的 **进出水壶语音** 可开启或静音，设置自动保存；静音后仍显示文字。途中反向会停止上一段，1.2 秒内快速切换不连续触发新语音，重复隐藏也不会重播。
+
+`语音试听/index.html` 可离线试听四段录音。只将原始 MP3 转换为播放所需的 PCM WAV，未合成、克隆、变调或变速。录音来自游戏语音社区镜像，来源、台词及文件哈希见 `验证报告/audio-sources.json`。
+
+本版不修改人物、日常动作与水壶动画素材。
+
+## 1.3.0 入壶动画
 
 新增已验收的“藏进热水壶 / 从壶中出来”：拖到屏幕边缘松手或手动隐藏，缪缪由完整流形整体融合为清水，再流入热水壶。拖回屏幕内、点击壶或取消隐藏后恢复本体。支持中途反向，暂停设置保留。
 
@@ -45,8 +55,8 @@ dotnet publish source/Muelsyse.csproj -c Release -r win-x64 --self-contained tru
 
 ## 验证与发布内容
 
-174 项逻辑/素材自检、84 项真实窗口检查通过，包括靠边触发、进出反向、暂停保持和恢复端点。动画已获得用户确认。报告见 `验证报告/`；其中首次界面检查与 runtime.json 为 1.2.6 历史记录，当前版本以 self-test.json、ui.json 和 kettle-validation.json 为准。
+187 项逻辑/素材自检、88 项真实窗口检查通过，包括靠边触发、进出反向、暂停保持和恢复端点。动画已获得用户确认。报告见 `验证报告/`；其中首次界面检查与 runtime.json 为 1.2.6 历史记录，本版运行检查以 self-test.json、ui.json 和 voice-validation.json 为准，动画验收记录仍为 kettle-validation.json。
 
-完整发布包包含程序、58 个正式素材文件、源码、离线预览与当前检查记录。账号凭据、本机设置、调试符号和内部工作记录不随公开包发布。ZIP 的 SHA-256 另附于 Release，包内 `SHA256.json` 可逐文件校验。
+完整发布包包含程序、62 个正式素材文件（保留原有 58 个，新增 4 段语音）、源码、离线预览与当前检查记录。账号凭据、本机设置、调试符号和内部工作记录不随公开包发布。ZIP 的 SHA-256 另附于 Release，包内 `SHA256.json` 可逐文件校验。
 
 角色与素材信息见 [NOTICE.md](NOTICE.md)，详细操作见 [使用说明](使用说明.md)。

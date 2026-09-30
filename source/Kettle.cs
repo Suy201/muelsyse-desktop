@@ -45,6 +45,7 @@ internal sealed partial class PetForm
     bool KettleBusy=>pendingKettle||kettle.Active;
     void SetKettle(bool hide)
     {
+        if(hide==WantsKettle)return;
         card?.Hide();actionPalette?.HidePreview();speech="";notice="";noticeUntil=0;dirty=true;
         if(hide){dashboard?.Hide();actionPalette?.Hide();afterKettleGesture=null;}
         double now=clock.Elapsed.TotalSeconds;
@@ -52,7 +53,7 @@ internal sealed partial class PetForm
         if(hide&&!kettle.Active&&!brain.Paused&&!dragging){pendingKettle=true;StartClock();return;}
         pendingKettle=false;
         if(!kettle.Active&&hide){brain.ReturnToBase(now);player.ResetPose();}
-        kettle.Request(hide,now);
+        BeginKettleTransition(hide,now);
         if(!Visible)Show();
         StartClock();
     }

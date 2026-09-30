@@ -20,7 +20,7 @@ internal static class Program
         Application.Run(new PetForm(args));
     }
 }
-internal record Settings(int X,int Y,double Scale,bool OnTop);
+internal record Settings(int X,int Y,double Scale,bool OnTop,bool KettleVoice=true);
 
 internal sealed partial class PetForm : Form
 {
@@ -129,7 +129,7 @@ internal sealed partial class PetForm : Form
             else if(!smoke)brain.Tick(now,x-96,y-100,Math.Sqrt(dx*dx+dy*dy));
             player.Draw(brain,now);
             if(pendingKettle&&(brain.Paused||(!brain.Busy(now)&&!brain.Looking&&!player.LastClip.StartsWith("look"))))
-            {pendingKettle=false;brain.ReturnToBase(now);player.ResetPose();kettle.Request(true,now);PaintKettle(now);}
+            {pendingKettle=false;brain.ReturnToBase(now);player.ResetPose();BeginKettleTransition(true,now);PaintKettle(now);}
         }
         if(now>speechUntil&&speech.Length>0){speech="";dirty=true;}
         if(lastPresented!=player.Presented||dirty)DrawSurface();
@@ -209,12 +209,13 @@ internal sealed partial class PetForm : Form
         menu.Items.Add(new ToolStripSeparator());
         var pause=Item("暂停动作",TogglePause);
         var health=Item("喝水与休息提醒",()=>{reminders.Enabled=!reminders.Enabled;Say(reminders.Enabled?"喝水和休息提醒已开启。":"健康提醒已关闭，本次运行有效。",4);});
+        var kettleVoice=Item("进出水壶语音",ToggleKettleVoice);
         var onTop=Item("保持置顶",()=>{TopMost=!TopMost;SaveSettings();});
         var sizes=new ToolStripMenuItem("显示大小");
         foreach(double value in new[]{1.0,1.25,1.5}){var item=new ToolStripMenuItem($"{value*100:0}%",null,(_,_)=>SetScale(value)){Tag=value,Padding=new Padding(8,7,12,7)};sizes.DropDownItems.Add(item);}
         menu.Items.Add(sizes);menu.Items.Add(new ToolStripSeparator());
         var conceal=Item("藏进热水壶",()=>SetKettle(!WantsKettle));Item("退出桌宠",Close);
-        menu.Opening+=(_,_)=>{actionPalette?.HidePreview();card?.Hide();nearCardSince=-1;conceal.Text=WantsKettle?"取消隐藏 · 从壶中出来":"藏进热水壶";pause.Text=brain.Paused?"恢复动作":"暂停动作";health.Checked=reminders.Enabled;onTop.Checked=TopMost;foreach(ToolStripMenuItem item in sizes.DropDownItems)item.Checked=(double)item.Tag! == scale;};
+        menu.Opening+=(_,_)=>{actionPalette?.HidePreview();card?.Hide();nearCardSince=-1;conceal.Text=WantsKettle?"取消隐藏 · 从壶中出来":"藏进热水壶";pause.Text=brain.Paused?"恢复动作":"暂停动作";health.Checked=reminders.Enabled;kettleVoice.Checked=kettleVoiceEnabled;onTop.Checked=TopMost;foreach(ToolStripMenuItem item in sizes.DropDownItems)item.Checked=(double)item.Tag! == scale;};
         return menu;
     }
     void SetupTray()
@@ -229,10 +230,10 @@ internal sealed partial class PetForm : Form
     void LoadSettings()
     {
         var area=Screen.PrimaryScreen!.WorkingArea;Location=new Point(area.Right-Width-35,area.Bottom-Height-15);
-        try{var s=JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(CodexLink.Data,"settings-native.json")));if(s!=null){Location=new Point(s.X,s.Y);TopMost=s.OnTop;SetScale(Math.Clamp(s.Scale,1,1.5));}}
+        try{var s=JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(CodexLink.Data,"settings-native.json")));if(s!=null){Location=new Point(s.X,s.Y);TopMost=s.OnTop;kettleVoiceEnabled=s.KettleVoice;SetScale(Math.Clamp(s.Scale,1,1.5));}}
         catch(Exception e)when(e is IOException or JsonException){}ClampPosition();
     }
-    void SaveSettings(){if(!smoke)File.WriteAllText(Path.Combine(CodexLink.Data,"settings-native.json"),JsonSerializer.Serialize(new Settings(Left,Top,scale,TopMost)));}
+    void SaveSettings(){if(!smoke)File.WriteAllText(Path.Combine(CodexLink.Data,"settings-native.json"),JsonSerializer.Serialize(new Settings(Left,Top,scale,TopMost,kettleVoiceEnabled)));}
     void ClampPosition(){var area=Screen.FromRectangle(Bounds).WorkingArea;Left=Math.Clamp(Left,area.Left,Math.Max(area.Left,area.Right-Width));Top=Math.Clamp(Top,area.Top,Math.Max(area.Top,area.Bottom-Height));}
     void ShowDashboard()
     {
@@ -281,5 +282,5 @@ internal sealed partial class PetForm : Form
         File.WriteAllText(Path.Combine(output,"runtime.json"),JsonSerializer.Serialize(new{elapsedSeconds=elapsed,cpuSeconds=cpu,oneCoreCpuPercent=cpu/elapsed*100,logicalProcessors=Environment.ProcessorCount,workingSetBytes=proc.WorkingSet64,privateBytes=proc.PrivateMemorySize64,cacheBytes=sprites.Bytes,spriteLoads=sprites.Loads,renderTicks=ticks-firstTicks,presentedFrames=player.Presented-firstFrames,scheduledFps=times.Count/elapsed,p95FrameIntervalMs=gaps[(int)(gaps.Length*.95)]*1000,observedActions=actions,realDesktopWindow=true,displayScale=scale,renderer="Win32 per-pixel-alpha, single physical-pixel raster",interaction="Engine input injection; no synthetic mouse events sent"},new JsonSerializerOptions{WriteIndented=true}));Close();
     }
     protected override void OnFormClosed(FormClosedEventArgs e)
-    {closing=true;heartbeat.Stop();heartbeat.Dispose();card?.Dispose();actionPalette?.Dispose();StopClock();link.Dispose();tray.Visible=false;tray.Dispose();dashboard?.Close();surface?.Dispose();raster?.Dispose();speechFont.Dispose();SaveSettings();base.OnFormClosed(e);}
+    {closing=true;if(!smoke)KettleAudio.Stop();heartbeat.Stop();heartbeat.Dispose();card?.Dispose();actionPalette?.Dispose();StopClock();link.Dispose();tray.Visible=false;tray.Dispose();dashboard?.Close();surface?.Dispose();raster?.Dispose();speechFont.Dispose();SaveSettings();base.OnFormClosed(e);}
 }

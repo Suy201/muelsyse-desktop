@@ -307,6 +307,14 @@
       "ok": true
     },
     {
+      "name": "entry voice caption starts with the actual transformation",
+      "ok": true
+    },
+    {
+      "name": "repeated hide request does not restart or clear its voice caption",
+      "ok": true
+    },
+    {
       "name": "cancel during entry reverses continuously",
       "ok": true
     },
@@ -332,6 +340,14 @@
     },
     {
       "name": "dragging the kettle away from the edge restores the pet",
+      "ok": true
+    },
+    {
+      "name": "right-click menu can mute kettle voice",
+      "ok": true
+    },
+    {
+      "name": "right-click menu can restore kettle voice",
       "ok": true
     },
     {
