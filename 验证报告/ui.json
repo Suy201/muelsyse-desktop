@@ -301,13 +301,50 @@
     {
       "name": "closing the action window releases its preview and timer",
       "ok": true
+    },
+    {
+      "name": "hide starts a visible transformation instead of hiding the native window",
+      "ok": true
+    },
+    {
+      "name": "cancel during entry reverses continuously",
+      "ok": true
+    },
+    {
+      "name": "cancelled entry returns to the normal state",
+      "ok": true
+    },
+    {
+      "name": "paused pet still enters kettle and stops the animation clock when hidden",
+      "ok": true
+    },
+    {
+      "name": "kettle right-click menu offers an exit",
+      "ok": true
+    },
+    {
+      "name": "exit preserves pause and rests on the original endpoint",
+      "ok": true
+    },
+    {
+      "name": "release at a work-area edge hides into kettle",
+      "ok": true
+    },
+    {
+      "name": "dragging the kettle away from the edge restores the pet",
+      "ok": true
+    },
+    {
+      "name": "existing twelve actions remain available after repeated hide/show",
+      "ok": true
     }
   ],
   "singleRightClickOpenCount": 1,
-  "menuOpenCount": 2,
+  "menuOpenCount": 3,
   "menuCloseReasons": [
     "CloseCalled",
-    "Keyboard"
+    "Keyboard",
+    "CloseCalled"
   ],
   "trayCloseReasons": [
     "CloseCalled"

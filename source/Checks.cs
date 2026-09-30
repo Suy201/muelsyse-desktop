@@ -9,6 +9,7 @@ internal static class Checks
     {
         List<string> passed=[];
         void Check(bool result,string name){if(!result)throw new InvalidOperationException(name);passed.Add(name);}
+        KettleChecks.Run(Check);
         var dialogue=new InteractionLines(42);var lines=Enumerable.Range(0,600).Select(_=>dialogue.Next()).ToArray();
         Check(lines.Zip(lines.Skip(1),(a,b)=>a!=b).All(s=>s),"click dialogue never immediately repeats");
         Check(lines.ToHashSet().SetEquals(InteractionLines.Lines),"every click dialogue can be selected");

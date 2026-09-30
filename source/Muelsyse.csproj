@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>Muelsyse</AssemblyName>
-    <Version>1.2.6</Version>
+    <Version>1.3.0</Version>
     <ApplicationIcon>../assets/pet.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup><Content Include="../assets/**/*" Link="assets/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" /></ItemGroup>

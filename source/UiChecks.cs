@@ -8,6 +8,8 @@ internal sealed partial class PetForm
     async Task CheckUi()
     {
         string output=args[Array.IndexOf(args,"--ui-check")+1];Directory.CreateDirectory(output);
+        // Keep the isolated test popup away from a simultaneously running pet.
+        var testArea=Screen.FromRectangle(Bounds).WorkingArea;Location=new Point(testArea.Left+40,testArea.Bottom-Height-40);
         StartClock();
         var checks=new List<object>();int failures=0;
         void Check(bool ok,string name){checks.Add(new{name,ok});if(!ok)failures++;}
@@ -117,6 +119,7 @@ internal sealed partial class PetForm
         Check(!brain.Paused&&frameClock!=null,"an action button resumes paused playback");
         actionJournal.Close();Check(palette.Visible,"action window can remain open independently of the journal");
         var previewWindow=palette.Preview;palette.Close();Check(previewWindow.IsDisposed,"closing the action window releases its preview and timer");
+        await CheckKettleUi(Check,output);
         File.WriteAllText(Path.Combine(output,"ui.json"),JsonSerializer.Serialize(new{ok=failures==0,failures,checks,singleRightClickOpenCount,menuOpenCount=opened,menuCloseReasons=reasons,trayCloseReasons,scope="Real WinForms windows and active animation clock; native message dispatch and injected heartbeat pointer; no system mouse input"},new JsonSerializerOptions{WriteIndented=true}));
         Environment.ExitCode=failures==0?0:1;
     }

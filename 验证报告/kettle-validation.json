@@ -1,0 +1,15 @@
+{
+  "version": "1.3.0",
+  "user_accepted": true,
+  "animation_sha256": "e9f99f61792ed83e92c59a8fc28f327ec987d438826988173791a7e0cef7885b",
+  "frames": 144,
+  "fps": 30,
+  "duration_seconds": 4.8,
+  "whole_drawings": 14,
+  "normal_endpoint_pixel_identical": true,
+  "native_preview_equal_frames": 144,
+  "unchanged_previous_assets": 57,
+  "self_test_count": 174,
+  "ui_check_count": 84,
+  "ui_failures": 0
+}

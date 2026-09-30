@@ -54,6 +54,7 @@ internal sealed class SpritePlayer(Sprites sprites)
     public long Presented {get;private set;}
     public string LastClip=>drawn;
     public int LastFrame=>drawnIndex;
+    public void ResetPose(){look=-1;target=-1;transition=null;}
     public void Draw(Behavior behavior,double now)
     {
         int wanted=behavior.Looking?behavior.Direction:-1;

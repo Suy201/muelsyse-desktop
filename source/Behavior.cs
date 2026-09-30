@@ -70,6 +70,8 @@ internal sealed class Behavior(int seed = 0)
         Dragging = false; Looking = false; nearSince = -1;
         LastInteraction = now; nextIdle = now + random.Next(10, 21); Start(BaseAction(), now);
     }
+    public void ReturnToBase(double now)
+    {Dragging=false;Looking=false;pending=null;nearSince=-1;farSince=-1;returnUntil=0;nextIdle=now+random.Next(10,21);Start(BaseAction(),now);}
     public static double GestureDuration(string action)=>Gestures.FirstOrDefault(g=>g.Id==action)?.Duration??2.4;
     public bool PlayGesture(string action,double now)
     {
