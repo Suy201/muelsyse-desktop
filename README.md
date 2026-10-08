@@ -1,12 +1,12 @@
 # 缪缪桌宠 · Muelsyse Desktop
 
-缪尔赛思的独立 Windows 桌面陪伴程序。当前版本 **1.3.1**，适用于 **Windows 10 / 11 x64**。
+缪尔赛思的独立 Windows 桌面陪伴程序。当前版本 **1.3.2**，适用于 **Windows 10 / 11 x64**。
 
 ![动作预览](docs/actions.png)
 
 ## 下载与使用
 
-前往 [最新发布](https://github.com/Suy201/muelsyse-desktop/releases/latest)，下载 **Muelsyse-Desktop-1.3.1-Windows-x64.zip**。这是包含完整程序、正式素材、源码和离线预览的发布包。
+前往 [最新发布](https://github.com/Suy201/muelsyse-desktop/releases/latest)，下载 **Muelsyse-Desktop-1.3.2-Windows-x64.zip**。这是包含完整程序、正式素材、源码和离线预览的发布包。
 
 完整解压后双击 `Muelsyse.exe`，无需另外安装 .NET。请保留 `assets` 文件夹与 EXE 的相对位置。GitHub 自动生成的 Source code 压缩包是源码，不含可直接启动的 EXE。
 
@@ -21,7 +21,17 @@ Codex 相关功能需要本机安装并登录 Codex。实时语音使用 Codex �
 
 设置保存在 `%LOCALAPPDATA%\MuelsysePet`。更新时退出旧版，解压新版后启动即可。
 
-## 1.3.1 更新
+## 1.3.2 更新
+
+双击桌宠后会自动读取本机 Codex 登录状态并连接额度服务，无需从 Codex 内启动桌宠，也无需设置 PATH 或填写 API Key。支持商店版 Codex 自带程序和常见 CLI 安装位置；后台接口连接失败时，会使用 Windows 当前网络与代理设置尝试读取账户额度。
+
+首次使用请先安装 Codex，并在 Codex 中登录自己的 ChatGPT 账号。观察手记新增 **连接 Codex** 按钮：已安装时打开 Codex，未安装时打开官方安装说明。完成登录后，桌宠会自动重试，也可以点 **刷新额度** 立即检查。没有登录账号时无法取得个人额度；API Key 登录不提供 ChatGPT 套餐剩余百分比。
+
+启动立即连接；成功后每 5 分钟刷新，失败后每 30 秒自动重连。网络恢复后不需要重启桌宠。新启动不会把旧缓存当作当前额度；本次运行中网络暂时中断时，会明确标注上次数据为缓存及读取时间。
+
+只读取本机现有登录信息，保持登录文件不变；账户请求仅发往 Codex 的 HTTPS 服务，账号、令牌和本机设置不随发布包分发。电脑当前网络需要能够访问 Codex 额度服务。
+
+## 1.3.1 原声互动
 
 进出动画实际开始时，播放缪尔赛思现有官方中文语音，并显示相应文字。入壶为“阳光有点辣，我先休息一会。”或“如水随形。”；出壶为“哈喽。”或“愿望啊，请你凝结。”。首次随机选择，同一方向不连续重复。
 
@@ -55,7 +65,7 @@ dotnet publish source/Muelsyse.csproj -c Release -r win-x64 --self-contained tru
 
 ## 验证与发布内容
 
-187 项逻辑/素材自检、88 项真实窗口检查通过，包括靠边触发、进出反向、暂停保持和恢复端点。动画已获得用户确认。报告见 `验证报告/`；其中首次界面检查与 runtime.json 为 1.2.6 历史记录，本版运行检查以 self-test.json、ui.json 和 voice-validation.json 为准，动画验收记录仍为 kettle-validation.json。
+202 项逻辑/素材自检、89 项真实窗口检查通过，包括靠边触发、进出反向、暂停保持和恢复端点。动画已获得用户确认。报告见 `验证报告/`；其中首次界面检查与 runtime.json 为 1.2.6 历史记录，本版运行检查以 self-test.json、ui.json 和 connection-validation.json 为准；voice-validation.json 与 kettle-validation.json 为既有语音和动画验收记录。
 
 完整发布包包含程序、62 个正式素材文件（保留原有 58 个，新增 4 段语音）、源码、离线预览与当前检查记录。账号凭据、本机设置、调试符号和内部工作记录不随公开包发布。ZIP 的 SHA-256 另附于 Release，包内 `SHA256.json` 可逐文件校验。
 

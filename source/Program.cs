@@ -11,7 +11,7 @@ internal static class Program
     {
         Directory.CreateDirectory(CodexLink.Data);
         if(args.Contains("--self-test")){Checks.Run(args);return;}
-        if(args.Contains("--diagnose")){Checks.Diagnose().GetAwaiter().GetResult();return;}
+        if(args.Contains("--diagnose")){Checks.Diagnose(args).GetAwaiter().GetResult();return;}
         if(args.Contains("--monitor-probe")){Checks.MonitorProbe(args).GetAwaiter().GetResult();return;}
         using var mutex=new Mutex(true,"Local\\MuelsyseDesktopPet",out bool first);
         if(!first&&!args.Contains("--smoke-test")&&!args.Contains("--ui-preview")&&!args.Contains("--ui-check")&&!args.Contains("--kettle-preview"))return;
@@ -235,11 +235,18 @@ internal sealed partial class PetForm : Form
     }
     void SaveSettings(){if(!smoke)File.WriteAllText(Path.Combine(CodexLink.Data,"settings-native.json"),JsonSerializer.Serialize(new Settings(Left,Top,scale,TopMost,kettleVoiceEnabled)));}
     void ClampPosition(){var area=Screen.FromRectangle(Bounds).WorkingArea;Left=Math.Clamp(Left,area.Left,Math.Max(area.Left,area.Right-Width));Top=Math.Clamp(Top,area.Top,Math.Max(area.Top,area.Bottom-Height));}
+    void ConnectCodex()
+    {
+        if(smoke)return;
+        try { CodexLaunch.Open("codex://launch"); }
+        catch(System.ComponentModel.Win32Exception) { CodexLaunch.Open("https://developers.openai.com/codex/app/"); }
+        _=Task.Run(async()=>{await Task.Delay(3000);if(!closing)await link.RefreshQuota();});
+    }
     void ShowDashboard()
     {
         card?.Hide();nearCardSince=-1;
         if(dashboard!=null&&!dashboard.IsDisposed){if(dashboard.WindowState==FormWindowState.Minimized)dashboard.WindowState=FormWindowState.Normal;dashboard.Show();dashboard.BringToFront();dashboard.Activate();return;}
-        var journal=new JournalForm(async()=>{await link.RefreshQuota();RefreshPanels();},ShowActionPalette);dashboard=journal;
+        var journal=new JournalForm(async()=>{await link.RefreshQuota();RefreshPanels();},ShowActionPalette,ConnectCodex);dashboard=journal;
         updateDashboard=()=>journal.UpdateContent(statusDetail,link.Quotas,link.QuotaUpdated,link.QuotaNote);
         dashboard.FormClosed+=(_,_)=>{dashboard=null;updateDashboard=null;nearCardSince=-1;};updateDashboard();dashboard.Show(this);dashboard.BringToFront();dashboard.Activate();
     }

@@ -10,6 +10,7 @@ internal static class Checks
         List<string> passed=[];
         void Check(bool result,string name){if(!result)throw new InvalidOperationException(name);passed.Add(name);}
         KettleChecks.Run(Check);
+        CodexConnectionChecks.Run(Check).GetAwaiter().GetResult();
         var dialogue=new InteractionLines(42);var lines=Enumerable.Range(0,600).Select(_=>dialogue.Next()).ToArray();
         Check(lines.Zip(lines.Skip(1),(a,b)=>a!=b).All(s=>s),"click dialogue never immediately repeats");
         Check(lines.ToHashSet().SetEquals(InteractionLines.Lines),"every click dialogue can be selected");
@@ -127,10 +128,15 @@ internal static class Checks
         var output=args.SkipWhile(a=>a!="--self-test").Skip(1).FirstOrDefault()??Path.Combine(CodexLink.Data,"self-test.json");
         File.WriteAllText(output,JsonSerializer.Serialize(new{ok=true,count=passed.Count,checks=passed,idleEvents=history.Count},new JsonSerializerOptions{WriteIndented=true}));
     }
-    public static async Task Diagnose()
+    public static async Task Diagnose(string[] args)
     {
-        using var link=new CodexLink();var state=link.ReadStatus();await link.RefreshQuota();
-        File.WriteAllText(Path.Combine(CodexLink.Data,"connection-diagnostic.json"),JsonSerializer.Serialize(new{state,quotas=link.Quotas,quotaNote=link.QuotaNote,quotaUpdated=link.QuotaUpdated,readOnly=true},new JsonSerializerOptions{WriteIndented=true}));
+        using var link=new CodexLink();var ready=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var clock=System.Diagnostics.Stopwatch.StartNew();CodexSnapshot? state=null;List<bool> observations=[];
+        bool recovery=args.Contains("--wait-for-reconnect");
+        link.Changed+=value=>state=value;link.QuotaChanged+=()=>{observations.Add(link.QuotaFresh);if(!recovery||link.QuotaFresh)ready.TrySetResult();};
+        link.Start();await ready.Task.WaitAsync(TimeSpan.FromSeconds(recovery?90:40));
+        string output=args.SkipWhile(a=>a!="--diagnose").Skip(1).FirstOrDefault()??Path.Combine(CodexLink.Data,"connection-diagnostic.json");
+        File.WriteAllText(output,JsonSerializer.Serialize(new{state,quotas=link.Quotas,quotaNote=link.QuotaNote,quotaUpdated=link.QuotaUpdated,fresh=link.QuotaFresh,automaticStartup=true,observations,seconds=clock.Elapsed.TotalSeconds,retrySeconds=link.RetryDelay.TotalSeconds,diagnostic=link.QuotaDiagnostic,readOnly=true},new JsonSerializerOptions{WriteIndented=true}));
     }
     public static async Task MonitorProbe(string[] args)
     {

@@ -3,6 +3,10 @@
   "failures": 0,
   "checks": [
     {
+      "name": "first-run journal offers a working connection button without opening external apps in tests",
+      "ok": true
+    },
+    {
       "name": "companion shortcuts dispatch distinct callbacks without opening Codex or the microphone in tests",
       "ok": true
     },

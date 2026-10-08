@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
@@ -61,9 +62,12 @@ internal sealed class CodexLink : IDisposable
     public List<Quota> Quotas { get; private set; } = [];
     public DateTimeOffset? QuotaUpdated { get; private set; }
     public string QuotaNote { get; private set; } = "正在读取额度…";
+    internal bool QuotaFresh { get; private set; }
+    internal string? QuotaDiagnostic { get; private set; }
+    internal TimeSpan RetryDelay=>QuotaFresh?TimeSpan.FromMinutes(5):TimeSpan.FromSeconds(30);
     public void Start()
     {
-        LoadQuotaCache();
+        // Verify the current account on every launch; never present an old cache as live.
         _ = Task.Run(async () =>
         {
             while (!cancel.IsCancellationRequested)
@@ -79,14 +83,14 @@ internal sealed class CodexLink : IDisposable
             while (!cancel.IsCancellationRequested)
             {
                 await RefreshQuota();
-                try { await Task.Delay(TimeSpan.FromMinutes(5), cancel.Token); } catch (OperationCanceledException) { break; }
+                try { await Task.Delay(RetryDelay, cancel.Token); } catch (OperationCanceledException) { break; }
             }
         });
     }
     public CodexSnapshot ReadStatus()
     {
         string history = Path.Combine(Home, "thread_history_1.sqlite"), state = Path.Combine(Home, "state_5.sqlite");
-        if (!File.Exists(history) || !File.Exists(state)) return new("unavailable", 0, "未发现兼容的本机 Codex 状态库", DateTimeOffset.Now);
+        if (!File.Exists(history) || !File.Exists(state)) return new("unavailable", 0, "等待 Codex 的本地任务记录", DateTimeOffset.Now);
         // Metadata only: never select user prompts, model text, tool output or credentials.
         var rows = ReadOnlySqlite.Query(history, state, """
             WITH recent AS (
@@ -150,39 +154,64 @@ internal sealed class CodexLink : IDisposable
     public async Task RefreshQuota()
     {
         if (!await quotaLock.WaitAsync(0)) return;
+        QuotaFresh=false;
+        QuotaDiagnostic=null;
         try
         {
-            string? exe = FindCli();
-            if(exe==null) { QuotaNote="未找到 Codex CLI；本地陪伴正常"; return; }
-            using var timeout=CancellationTokenSource.CreateLinkedTokenSource(cancel.Token); timeout.CancelAfter(TimeSpan.FromSeconds(25));
-            using var p=new Process { StartInfo=new(exe,"app-server --stdio") { UseShellExecute=false,CreateNoWindow=true,RedirectStandardInput=true,RedirectStandardOutput=true,RedirectStandardError=true,WorkingDirectory=Data } };
-            Directory.CreateDirectory(Data); p.Start();
-            var drain=p.StandardError.ReadToEndAsync(timeout.Token);
-            try
+            string? exe=FindCli();List<Quota>? values=null;
+            if(exe!=null)
             {
-                await p.StandardInput.WriteLineAsync("{\"id\":1,\"method\":\"initialize\",\"params\":{\"clientInfo\":{\"name\":\"muelsyse_desktop_pet\",\"version\":\"1.1.0\"}}}");
-                await p.StandardInput.FlushAsync();
-                using var initializedResponse=await Response(p,1,timeout.Token);
-                await p.StandardInput.WriteLineAsync("{\"method\":\"initialized\"}");
-                await p.StandardInput.WriteLineAsync("{\"id\":2,\"method\":\"account/rateLimits/read\"}");
-                await p.StandardInput.FlushAsync();
-                using var response=await Response(p,2,timeout.Token);
-                Quotas=ParseQuota(response.RootElement.GetProperty("result"));
-                QuotaUpdated=DateTimeOffset.Now;
-                QuotaNote=Quotas.Count==0?"账号未提供额度窗口（未知）":"来自 Codex 账户接口";
-                File.WriteAllText(Path.Combine(Data,"quota-cache.json"),JsonSerializer.Serialize(new QuotaCache(Quotas,QuotaUpdated.Value)));
+                try { values=await ReadRpcQuota(exe); }
+                catch(Exception e) when(e is IOException or InvalidOperationException or OperationCanceledException or System.ComponentModel.Win32Exception or JsonException)
+                { QuotaDiagnostic=e.GetType().Name; }
             }
-            finally
+            if(cancel.IsCancellationRequested)return;
+            if(values==null)
             {
-                p.StandardInput.Close();
-                try { await p.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(2)); }
-                catch (TimeoutException) { if(!p.HasExited) p.Kill(entireProcessTree:true); }
-                try { await drain; } catch (OperationCanceledException) { }
+                using var timeout=CancellationTokenSource.CreateLinkedTokenSource(cancel.Token);timeout.CancelAfter(TimeSpan.FromSeconds(20));
+                try { values=await CodexConnection.ReadNativeQuota(Home,timeout.Token); }
+                catch(MissingCodexLoginException)
+                { throw new QuotaConnectionException(CodexConnection.LoginNote); }
             }
+            Quotas=values;QuotaUpdated=DateTimeOffset.Now;QuotaFresh=true;QuotaDiagnostic=null;
+            QuotaNote=Quotas.Count==0?"账号未提供额度窗口（未知）":"已连接 Codex · 来自账户额度接口";
+            try { File.WriteAllText(Path.Combine(Data,"quota-cache.json"),JsonSerializer.Serialize(new QuotaCache(Quotas,QuotaUpdated.Value))); }
+            catch(Exception e)when(e is IOException or UnauthorizedAccessException){} // Live values work without a writable cache.
         }
-        catch(Exception e) when(e is IOException or InvalidOperationException or OperationCanceledException or System.ComponentModel.Win32Exception or JsonException)
-        { QuotaNote=QuotaUpdated==null?"额度读取暂不可用；请确认 Codex 已登录":"暂未更新，显示上次读取值"; }
-        finally { quotaLock.Release(); QuotaChanged?.Invoke(); }
+        catch(QuotaConnectionException e)
+        {
+            if(e.Message==CodexConnection.LoginNote||e.Message.Contains("API Key")){Quotas=[];QuotaUpdated=null;}
+            QuotaNote=e.Message+(QuotaUpdated!=null?" · 显示缓存":"");
+        }
+        catch(Exception e) when(e is IOException or HttpRequestException or InvalidOperationException or OperationCanceledException or System.ComponentModel.Win32Exception or JsonException or UnauthorizedAccessException)
+        { QuotaDiagnostic=e.GetType().Name+"\n"+e.StackTrace;QuotaNote=CodexConnection.NetworkNote+(QuotaUpdated!=null?" · 显示缓存":""); }
+        finally { quotaLock.Release(); if(!cancel.IsCancellationRequested)QuotaChanged?.Invoke(); }
+    }
+    async Task<List<Quota>> ReadRpcQuota(string exe)
+    {
+        using var timeout=CancellationTokenSource.CreateLinkedTokenSource(cancel.Token);timeout.CancelAfter(TimeSpan.FromSeconds(12));
+        // stdio is the default on old and new releases; --stdio is not universal.
+        using var p=new Process { StartInfo=new(exe,"app-server") { UseShellExecute=false,CreateNoWindow=true,RedirectStandardInput=true,RedirectStandardOutput=true,RedirectStandardError=true,WorkingDirectory=Data } };
+        Directory.CreateDirectory(Data);p.Start();
+        var drain=p.StandardError.ReadToEndAsync(timeout.Token);
+        try
+        {
+            await p.StandardInput.WriteLineAsync("{\"id\":1,\"method\":\"initialize\",\"params\":{\"clientInfo\":{\"name\":\"muelsyse_desktop_pet\",\"version\":\"1.3.2\"}}}");
+            await p.StandardInput.FlushAsync();
+            using var initializedResponse=await Response(p,1,timeout.Token);
+            await p.StandardInput.WriteLineAsync("{\"method\":\"initialized\"}");
+            await p.StandardInput.WriteLineAsync("{\"id\":2,\"method\":\"account/rateLimits/read\"}");
+            await p.StandardInput.FlushAsync();
+            using var response=await Response(p,2,timeout.Token);
+            return ParseQuota(response.RootElement.GetProperty("result"));
+        }
+        finally
+        {
+            p.StandardInput.Close();
+            try { await p.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(2)); }
+            catch(TimeoutException) { if(!p.HasExited)p.Kill(entireProcessTree:true); }
+            try { await drain; } catch(OperationCanceledException){}
+        }
     }
     private static async Task<JsonDocument> Response(Process p,int id,CancellationToken token)
     {
@@ -191,27 +220,14 @@ internal sealed class CodexLink : IDisposable
             var line=await p.StandardOutput.ReadLineAsync(token)??throw new IOException("Codex 接口已关闭");
             var doc=JsonDocument.Parse(line);
             if(doc.RootElement.TryGetProperty("id",out var value)&&value.ValueKind==JsonValueKind.Number&&value.GetInt32()==id)
-            { if(doc.RootElement.TryGetProperty("error",out _)){doc.Dispose();throw new IOException("Codex 接口暂不可用");} return doc; }
+            { if(doc.RootElement.TryGetProperty("error",out var error)){string message=error.TryGetProperty("message",out var detail)?detail.GetString()??"":"";doc.Dispose();throw new QuotaConnectionException(CodexConnection.RpcFailure(message));} return doc; }
             doc.Dispose();
         }
     }
-    public static string? FindCli()
-    {
-        string root=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"OpenAI","Codex","bin");
-        if(Directory.Exists(root))
-        {
-            var path=Directory.EnumerateFiles(root,"codex.exe",SearchOption.AllDirectories).OrderByDescending(File.GetLastWriteTimeUtc).FirstOrDefault();
-            if(path!=null)return path;
-        }
-        foreach(string dir in (Environment.GetEnvironmentVariable("PATH")??"").Split(Path.PathSeparator))
-        { try { string path=Path.Combine(dir,"codex.exe"); if(File.Exists(path))return path; } catch(ArgumentException){} }
-        return null;
-    }
+    public static string? FindCli()=>CodexConnection.CliCandidates(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        Environment.GetEnvironmentVariable("PATH")??"",CodexConnection.InstalledPackages()).FirstOrDefault(File.Exists);
     private record QuotaCache(List<Quota> Values,DateTimeOffset At);
-    private void LoadQuotaCache()
-    {
-        try { var cache=JsonSerializer.Deserialize<QuotaCache>(File.ReadAllText(Path.Combine(Data,"quota-cache.json")));if(cache!=null){Quotas=cache.Values;QuotaUpdated=cache.At;QuotaNote="缓存，等待刷新";} }
-        catch(Exception e) when(e is IOException or JsonException) { }
-    }
     public void Dispose()=>cancel.Cancel();
 }

@@ -71,9 +71,9 @@ internal sealed class WaterHeader:Panel
 internal sealed class JournalForm:Form
 {
     readonly Label status,note;readonly FlowLayoutPanel quotas;readonly Button refresh=new();
-    internal readonly Button Actions=new();
+    internal readonly Button Actions=new(),Connect=new();
     string quotaKey="";
-    public JournalForm(Func<Task> refreshQuota,Action openActions)
+    public JournalForm(Func<Task> refreshQuota,Action openActions,Action? connectCodex=null)
     {
         Text="缪尔赛思 · 观察手记";ClientSize=new(420,490);FormBorderStyle=FormBorderStyle.FixedDialog;MaximizeBox=false;MinimizeBox=false;
         BackColor=WaterUi.Paper;Font=WaterUi.Font();ForeColor=WaterUi.Ink;StartPosition=FormStartPosition.CenterScreen;TopMost=true;AutoScaleMode=AutoScaleMode.None;
@@ -89,7 +89,8 @@ internal sealed class JournalForm:Form
         note=WaterUi.Label("",new(24,12,372,43),11,WaterUi.Muted);footer.Controls.Add(note);
         WaterUi.Button(refresh,"刷新额度",new(24,60,102,32),true);
         refresh.Click+=async(_,_)=>{refresh.Enabled=false;refresh.Text="正在刷新…";try{await refreshQuota();}finally{if(!refresh.IsDisposed){refresh.Enabled=true;refresh.Text="刷新额度";}}};
-        footer.Controls.Add(refresh);footer.Controls.Add(WaterUi.Label("左键招呼 · 拖动移动\n右键打开更多选项",new(169,62,227,39),11,WaterUi.Muted));
+        WaterUi.Button(Connect,"连接 Codex",new(138,60,106,32),true);Connect.Click+=(_,_)=>connectCodex?.Invoke();footer.Controls.Add(Connect);
+        footer.Controls.Add(refresh);footer.Controls.Add(WaterUi.Label("左键招呼 · 拖动移动\n右键打开更多选项",new(254,62,155,39),11,WaterUi.Muted));
         footer.Controls.Add(WaterUi.Label("连接暂不可用时，我也会在这里陪你。",new(24,102,372,19),11,WaterUi.Muted));
         quotas=new FlowLayoutPanel{Name="quotas",Dock=DockStyle.Fill,FlowDirection=FlowDirection.TopDown,WrapContents=false,AutoScroll=true,Padding=new Padding(0,0,0,12)};
         WaterUi.Button(Actions,"动作预览…",new(252,55,112,29));Actions.Click+=(_,_)=>openActions();state.Controls.Add(Actions);Actions.BringToFront();
@@ -117,9 +118,9 @@ internal sealed class JournalForm:Form
                 row.Controls.Add(WaterUi.Label($"重置于 {reset}",new(0,76,rowWidth,20),11,WaterUi.Muted));
                 quotas.Controls.Add(row);
             }
-            if(values.Count==0){var empty=WaterUi.Label("额度暂不可用\n连接恢复后会自动更新。",new(0,14,rowWidth,75),13,WaterUi.Muted);empty.Padding=new Padding(0,15,0,0);quotas.Controls.Add(empty);}
+            if(values.Count==0){var empty=WaterUi.Label("额度暂不可用\n首次使用，请点击下方「连接 Codex」登录。\n登录或网络恢复后会自动更新。",new(0,14,rowWidth,100),13,WaterUi.Muted);empty.Padding=new Padding(0,15,0,0);quotas.Controls.Add(empty);}
             quotas.ResumeLayout();
         }
-        note.Text=(updated is{} time?$"{time:MM-dd HH:mm} 更新 · 每 5 分钟刷新":"尚无成功读取记录")+"\n"+quotaNote;
+        note.Text=(updated is{} time?$"{time:MM-dd HH:mm} 更新 · 每 5 分钟刷新":"启动自动连接 · 失败后每 30 秒重试")+"\n"+quotaNote;
     }
 }

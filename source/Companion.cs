@@ -53,7 +53,7 @@ internal sealed class HoverCard:Form
     public void UpdateContent(string detail,List<Quota> quotas,DateTimeOffset? updated,string quotaNote,string message,bool health=false)
     {
         Later.Text=health?"10 分钟后提醒":"收起";state.Text=detail;
-        quota.Text=quotas.Count==0?"额度暂不可用":string.Join(" · ",quotas.Take(2).Select(q=>$"{WaterUi.Window(q)}余 {WaterUi.Remaining(q):0.#}%"));
+        quota.Text=quotas.Count==0?"额度连接中 · 打开手记查看详情":string.Join(" · ",quotas.Take(2).Select(q=>$"{WaterUi.Window(q)}余 {WaterUi.Remaining(q):0.#}%"));
         if(updated!=null&&(quotaNote.Contains("暂")||quotaNote.Contains("缓存")))quota.Text+=" · 缓存";
         fill.Width=quotas.Count==0?0:(int)(240*quotas.Min(WaterUi.Remaining)/100);
         notice.Text=message;notice.Visible=message.Length>0;

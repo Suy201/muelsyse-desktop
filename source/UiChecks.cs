@@ -19,6 +19,13 @@ internal sealed partial class PetForm
             control.DrawToBitmap(image,new Rectangle(0,0,control.Width,control.Height));image.Save(Path.Combine(output,name+".png"),ImageFormat.Png);
         }
         int newTasks=0,voiceRequests=0;
+        int connections=0;
+        using(var firstRun=new JournalForm(()=>Task.CompletedTask,()=>{},()=>connections++))
+        {
+            firstRun.UpdateContent("等待 Codex 的本地任务记录",[],null,CodexConnection.LoginNote);firstRun.Show(this);firstRun.Connect.PerformClick();
+            Check(connections==1&&firstRun.Connect.Right<firstRun.ClientSize.Width,"first-run journal offers a working connection button without opening external apps in tests");
+            Capture(firstRun,"first-run-connection");firstRun.Close();
+        }
         using(var companion=new HoverCard(()=>{},()=>{},()=>newTasks++,()=>voiceRequests++))
         {
             companion.Show(this);companion.NewTask.PerformClick();companion.Voice.PerformClick();
